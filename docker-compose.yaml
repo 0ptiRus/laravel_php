@@ -1,0 +1,34 @@
+version: "3.0"
+
+services:
+  app:
+    container_name: php_04_09_app
+    build:
+      context: .
+      dockerfile: .docker/app/Dockerfile
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    environment:
+      - ./app/.env
+  webserver:
+    container_name: php_04_09_server
+    build:
+      context: .
+      dockerfile: .docker/server/Dockerfile
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    ports: 
+      - "8082:80"
+  db:
+    container_name: php_04_09_db
+    image: "bitnami/postgresql:15.0.0"
+    volumes:
+      - "db_data:/bitname/postgresql"
+    environment:
+      POSTGRESQL_USERNAME: db_user
+      POSTGRESQL_PASSWORD: db_pass
+      POSTGRESQL_DATABASE: app
+volumes:
+  db_data:
