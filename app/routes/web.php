@@ -5,7 +5,17 @@ use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('main');
+    $menuItems = [
+        ['title' => 'home', 'url' => '/'],
+        ['title' => 'how it works', 'url' => '#works'],
+        ['title' => 'explore', 'url' => '#explore'],
+        ['title' => 'review', 'url' => '#reviews'],
+        ['title' => 'blog', 'url' => '#blog'],
+        ['title' => 'contact', 'url' => '#contact'],
+        ['title' => 'registration', 'url' => 'registration'],
+    ];
+    
+    return view('main', compact("menuItems"));
 })->name("main");
 
 Route::get("/registration", 
