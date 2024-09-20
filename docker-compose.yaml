@@ -30,5 +30,15 @@ services:
       POSTGRESQL_USERNAME: db_user
       POSTGRESQL_PASSWORD: db_pass
       POSTGRESQL_DATABASE: app
+
+  npm:
+    container_name: php_04_09_npm
+    image: node:latest
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    command: "npx create-react-app my-app"
+    ports:
+      - "8083:3000"
 volumes:
   db_data:
