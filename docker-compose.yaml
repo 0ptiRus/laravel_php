@@ -2,7 +2,7 @@ version: "3.0"
 
 services:
   app:
-    container_name: php_04_09_app
+    container_name: php_laravel_app
     build:
       context: .
       dockerfile: .docker/app/Dockerfile
@@ -12,7 +12,7 @@ services:
     environment:
       - ./app/.env
   webserver:
-    container_name: php_04_09_server
+    container_name: php_laravel_server
     build:
       context: .
       dockerfile: .docker/server/Dockerfile
@@ -22,7 +22,7 @@ services:
     ports: 
       - "8082:80"
   db:
-    container_name: php_04_09_db
+    container_name: php_laravel_db
     image: "bitnami/postgresql:15.0.0"
     volumes:
       - "db_data:/bitname/postgresql"
@@ -32,13 +32,34 @@ services:
       POSTGRESQL_DATABASE: app
 
   npm:
-    container_name: php_04_09_npm
+    container_name: php_laravel_npm
     image: node:latest
     working_dir: /app
     volumes:
       - ./frontend:/app
-    command: "npx create-react-app my-app"
     ports:
       - "8083:3000"
+
+
+  cron:
+        container_name: php_laravel_cron
+        build:
+            context: .
+            dockerfile: .docker/app/Dockerfile.cron
+        working_dir: /app
+        volumes:
+            - ./app:/app       
+        env_file:
+            ./app/.env 
+
+  mail:
+        container_name: php_laravel_mail
+        image: eaudeweb/mailtrap
+        ports:
+            - "8090:80"
+        environment:
+            MT_USER: user
+            MT_PASSWD: password
+            MT_SIZE_LIMIT: 0
 volumes:
   db_data:
