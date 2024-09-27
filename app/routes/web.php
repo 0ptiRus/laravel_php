@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ApiForgotPasswordController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
@@ -33,3 +35,16 @@ Route::get("/login",
 Route::post("/login", 
     [LoginController::class, "post"]
     )->name("login.post");
+
+
+Route::get('/forgot-password', 
+    [ForgotPasswordController::class, 'index']
+    )->name('password.request');
+
+Route::post('/forgot-password', 
+    [ForgotPasswordController::class, 'sendResetLinkEmail']
+    )->name('password.email');
+
+Route::get('/reset-password/{token}', 
+    [ApiForgotPasswordController::class, 'index']
+    )->name('password.reset');
