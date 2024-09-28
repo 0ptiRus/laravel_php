@@ -14,17 +14,6 @@ class FeedbackController extends Controller
 
     public function post(Request $request)
     {
-        $validated = $request->validate([
-            "email" => "required|email",
-            "feedback" => "required|min5|max:200",
-            "phone" => "required|phone:US,RU",
-        ]);
-
-        if(Auth::attempt($validated))
-        {
-            $request->session()->regenerate();
-
-            return redirect()->route("main");
-        }
+        return redirect()->route("main")->with('status', 'Feedback submitted!');
     }
 }
